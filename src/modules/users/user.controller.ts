@@ -1,5 +1,5 @@
 import { Body, Controller, Post, UsePipes } from '@nestjs/common';
-import { CreateUserDTO } from './dto/user.dto';
+import { User } from '@prisma/client';
 import { CreateUserValidationPipe } from './pipe/create-user.validation.pipe';
 import { CreateUserUseCase } from './use-cases/create-user';
 
@@ -9,7 +9,7 @@ export class UserController {
 
   @Post()
   @UsePipes(CreateUserValidationPipe)
-  async create(@Body() data: CreateUserDTO) {
+  async create(@Body() data: User) {
     const newUser = await this.createUserUseCase.execute(data);
     return newUser;
   }

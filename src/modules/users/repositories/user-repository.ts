@@ -5,4 +5,5 @@ export abstract class IUserRepository {
   abstract findByUsernameOrEmail(data: UsernameAndEmail): Promise<User | null>;
   abstract save(data: User): Promise<User>;
   abstract findByUsername(username: string): Promise<User | null>;
+  abstract findById(id: string): Promise<User | null>;
 }

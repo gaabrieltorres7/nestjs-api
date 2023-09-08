@@ -1,9 +1,14 @@
-import { User } from '@prisma/client';
-import { UsernameAndEmail } from '../dto/user.dto';
+import {
+  CreateUserDTO,
+  UserCreatedDTO,
+  UsernameAndEmail,
+} from '../dto/user.dto';
 
 export abstract class IUserRepository {
-  abstract findByUsernameOrEmail(data: UsernameAndEmail): Promise<User | null>;
-  abstract save(data: User): Promise<User>;
-  abstract findByUsername(username: string): Promise<User | null>;
-  abstract findById(id: string): Promise<User | null>;
+  abstract findByUsernameOrEmail(
+    data: UsernameAndEmail,
+  ): Promise<UserCreatedDTO | null>;
+  abstract save(data: CreateUserDTO): Promise<UserCreatedDTO>;
+  abstract findByUsername(username: string): Promise<UserCreatedDTO | null>;
+  abstract findById(id: string): Promise<UserCreatedDTO | null>;
 }

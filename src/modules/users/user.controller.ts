@@ -5,11 +5,9 @@ import {
   Post,
   Request,
   UseGuards,
-  UsePipes,
 } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { AuthGuard } from 'src/infra/providers/auth-guard.provider';
-import { CreateUserValidationPipe } from './pipe/create-user.validation.pipe';
+import { CreateUserSchemaDTO } from './schemas/create-user-schema';
 import { CreateUserUseCase } from './use-cases/create-user';
 import { ProfileUserUseCase } from './use-cases/profile-user';
 
@@ -21,9 +19,13 @@ export class UserController {
   ) {}
 
   @Post()
-  @UsePipes(CreateUserValidationPipe)
-  async create(@Body() data: User) {
-    const newUser = await this.createUserUseCase.execute(data);
+  // @UsePipes(CreateUserValidationPipe)
+  async create(@Body() data: CreateUserSchemaDTO) {
+    const user = await this.createUserUseCase.execute(data);
+    const newUser = {
+      ...user,
+      password: undefined,
+    };
     return newUser;
   }
 

@@ -14,3 +14,17 @@ export type UsernameAndEmail = {
   username: string;
   email: string;
 };
+
+export type FileDTO = {
+  originalname: string;
+  filename: string;
+  encoding: string;
+  size: number;
+  mimetype: string;
+  buffer: Buffer;
+};
+
+export type AvatarDTO = {
+  userId: string;
+  file: FileDTO;
+};

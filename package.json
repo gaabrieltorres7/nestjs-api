@@ -25,6 +25,7 @@
     "@nestjs/jwt": "^10.1.1",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.2.0",
+    "@supabase/supabase-js": "^2.33.2",
     "bcrypt": "^5.1.1",
     "nestjs-zod": "^3.0.0",
     "reflect-metadata": "^0.1.13",

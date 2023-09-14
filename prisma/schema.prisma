@@ -16,6 +16,7 @@ model User {
   email     String     @unique
   password  String
   name      String
+  avatarUrl String?
   createdAt DateTime   @default(now())
   TaskUser  TaskUser[]
 

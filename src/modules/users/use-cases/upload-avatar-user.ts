@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { extname } from 'path';
 import { IStorage } from 'src/infra/providers/storage/storage';
 import { AvatarDTO } from '../dto/user.dto';
 import { IUserRepository } from '../repositories/user-repository';
@@ -11,6 +12,9 @@ export class UploadAvatarUserUseCase {
   ) {}
 
   async execute(data: AvatarDTO) {
+    const extFile = extname(data.file.originalname);
+    const fileName = `${data.userId}${extFile}`;
+    data.file.originalname = fileName;
     const file = await this.storage.upload(data.file, 'avatar');
     return file;
   }

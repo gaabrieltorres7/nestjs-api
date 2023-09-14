@@ -7,6 +7,7 @@ import { IUserRepository } from '../user-repository';
 @Injectable()
 export class UserPrismaRepository implements IUserRepository {
   constructor(private prisma: PrismaService) {}
+
   async findByUsername(username: string): Promise<UserCreatedDTO | null> {
     return await this.prisma.user.findUnique({ where: { username } });
   }
@@ -27,5 +28,12 @@ export class UserPrismaRepository implements IUserRepository {
 
   async save(data: User): Promise<UserCreatedDTO> {
     return await this.prisma.user.create({ data });
+  }
+
+  async uploadAvatar(userId: string, path: string): Promise<void> {
+    this.prisma.user.update({
+      where: { id: userId },
+      data: { avatarUrl: path },
+    });
   }
 }

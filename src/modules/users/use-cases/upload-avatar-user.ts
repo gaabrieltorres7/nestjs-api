@@ -16,6 +16,9 @@ export class UploadAvatarUserUseCase {
     const fileName = `${data.userId}${extFile}`;
     data.file.originalname = fileName;
     const file = await this.storage.upload(data.file, 'avatar');
+    const pathAvatarUser = `avatar/${data.file.originalname}}`;
+    await this.userRepository.uploadAvatar(data.userId, pathAvatarUser);
+
     return file;
   }
 }

@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { CreateUserDTO } from '../../dto/user.dto';
 import { UserInMemoryRepository } from '../../repositories/in-memory/user-in-memory-repository';
@@ -33,5 +34,19 @@ describe('CreateUserUseCase', () => {
     const result = await createUserUseCase.execute(data);
 
     expect(result).toHaveProperty('id');
+  });
+
+  it('should not be able to create a new user if username already exists', async () => {
+    const data: CreateUserDTO = {
+      email: 'any_email',
+      name: 'any_username',
+      password: 'any_password',
+      username: 'same_username',
+    };
+
+    await createUserUseCase.execute(data);
+    expect(
+      async () => await createUserUseCase.execute(data),
+    ).rejects.toBeInstanceOf(HttpException);
   });
 });

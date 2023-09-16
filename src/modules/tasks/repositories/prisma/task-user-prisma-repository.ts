@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/infra/db/prisma.service';
 import { EndOfDay, StartOfDay } from 'src/infra/utils/date';
 import {
+  TaskUserNotificationDTO,
   TaskUserRequestDTO,
   TaskUserResponseDTO,
 } from '../../dto/task-user.dto';
@@ -33,7 +34,7 @@ export class TaskUserPrismaRepository implements ITaskRepository {
     });
   }
 
-  async findAllStartDay(): Promise<TaskUserResponseDTO[]> {
+  async findAllStartDay(): Promise<TaskUserNotificationDTO[] | null> {
     const allTasks = await this.prisma.taskUser.findMany({
       where: {
         AND: [
@@ -46,6 +47,17 @@ export class TaskUserPrismaRepository implements ITaskRepository {
             },
           },
         ],
+      },
+      include: {
+        task: {
+          select: {
+            startAt: true,
+            endAt: true,
+            title: true,
+            description: true,
+          },
+        },
+        user: true,
       },
     });
 

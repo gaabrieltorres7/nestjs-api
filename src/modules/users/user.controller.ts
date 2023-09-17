@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { zodToOpenAPI } from 'nestjs-zod';
 import { AuthGuard } from '../../infra/providers/auth-guard.provider';
 import { FileDTO } from './dto/user.dto';
@@ -56,6 +56,15 @@ export class UserController {
   @Put('/avatar')
   @UseInterceptors(FileInterceptor('file'))
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({
+    // another way to show the schema in the docs
+    schema: {
+      type: 'object',
+      properties: { file: { type: 'string', format: 'binary' } },
+    },
+  })
   async uploadAvatar(@Request() req, @UploadedFile() file: FileDTO) {
     const result = await this.uploadAvatarUserUseCase.execute({
       userId: req.user.sub,

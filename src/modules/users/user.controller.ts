@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiTags } from '@nestjs/swagger';
 import { zodToOpenAPI } from 'nestjs-zod';
 import { AuthGuard } from '../../infra/providers/auth-guard.provider';
 import { FileDTO } from './dto/user.dto';
@@ -48,6 +48,7 @@ export class UserController {
 
   @Get('/me')
   @UseGuards(AuthGuard)
+  @ApiBearerAuth() // Swagger decorator to show in docs that this route needs a token
   async me(@Request() { user }) {
     return this.profileUserUseCase.execute(user.sub);
   }

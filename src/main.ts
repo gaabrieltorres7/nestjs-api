@@ -9,6 +9,7 @@ async function bootstrap() {
     .setTitle('NestJS Task Manager API')
     .setDescription('API responsible for managing user tasks')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

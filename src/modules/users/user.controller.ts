@@ -10,14 +10,22 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { zodToOpenAPI } from 'nestjs-zod';
 import { AuthGuard } from '../../infra/providers/auth-guard.provider';
 import { FileDTO } from './dto/user.dto';
-import { CreateUserSchemaDTO } from './schemas/create-user-schema';
+import {
+  CreateUserSchema,
+  CreateUserSchemaDTO,
+} from './schemas/create-user-schema';
 import { CreateUserUseCase } from './use-cases/create-user';
 import { ProfileUserUseCase } from './use-cases/profile-user';
 import { UploadAvatarUserUseCase } from './use-cases/upload-avatar-user';
 
+const schemaUserSwagger = zodToOpenAPI(CreateUserSchema);
+
 @Controller('/users')
+@ApiTags('users') // Swagger decorator to show in docs that all routes in this controller are part of the users group
 export class UserController {
   constructor(
     private readonly createUserUseCase: CreateUserUseCase,
@@ -26,6 +34,8 @@ export class UserController {
   ) {}
 
   @Post()
+  @ApiBody({ schema: schemaUserSwagger }) // Swagger decorator to show the schema in the docs
+  //@ApiResponse()
   // @UsePipes(CreateUserValidationPipe)
   async create(@Body() data: CreateUserSchemaDTO) {
     const user = await this.createUserUseCase.execute(data);

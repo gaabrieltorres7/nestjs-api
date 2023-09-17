@@ -12,8 +12,8 @@ import { NotificationTaskUserSchedule } from './notification-task-user.schedule'
       // ClientsModule is used to connect to other microservices
       {
         name: 'NOTIFICATION',
-        transport: Transport.TCP,
-        options: { port: 3001, host: '127.0.0.1' },
+        transport: Transport.KAFKA,
+        options: { client: { brokers: ['127.0.0.1:9092'] } },
       },
     ]),
   ], // 👈 every scheduled job will be registered here

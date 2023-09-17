@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientKafka } from '@nestjs/microservices';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { ITaskRepository } from 'src/modules/tasks/repositories/task-user-repository';
 
@@ -16,7 +16,7 @@ type MessageDTO = {
 export class NotificationTaskUserSchedule {
   constructor(
     private taskRepository: ITaskRepository,
-    @Inject('NOTIFICATION') private readonly notificationClient: ClientProxy,
+    @Inject('NOTIFICATION') private readonly notificationClient: ClientKafka,
   ) {} //using Inject to get the ms client
 
   @Cron(CronExpression.EVERY_5_SECONDS)
@@ -33,7 +33,8 @@ export class NotificationTaskUserSchedule {
           title: task.task.title,
           description: task.task.description,
         };
-        this.notificationClient.emit('task_notification', message);
+        console.log('Sending message to notification microservice');
+        this.notificationClient.emit('tp_task_notification', message);
       });
     }
   }

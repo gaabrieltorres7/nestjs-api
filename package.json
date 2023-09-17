@@ -30,6 +30,7 @@
     "@prisma/client": "^5.2.0",
     "@supabase/supabase-js": "^2.33.2",
     "bcrypt": "^5.1.1",
+    "kafkajs": "^2.2.4",
     "nestjs-zod": "^3.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",

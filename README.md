@@ -33,7 +33,7 @@
 <h3>Cloning</h3>
 
 ```bash
-git clone https://github.com/gaabrieltorres7/riderize
+git clone https://github.com/gaabrieltorres7/task-manager-nestjs
 ```
 
 <h3>Config .env variables</h2>
